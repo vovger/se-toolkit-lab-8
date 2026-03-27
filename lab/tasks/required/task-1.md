@@ -21,25 +21,50 @@ Start by reading the [official nanobot repository](https://github.com/HKUDS/nano
 
 ### What to do in Part A
 
-1. Create a repo-local `nanobot/` project and install the framework from PyPI:
+1. Create a repo-local `nanobot/` project:
 
    ```terminal
    uv init nanobot
+   ```
+
+2. Enter the repo-local project directory:
+
+   ```terminal
    cd nanobot
-   uv add nanobot-ai
    ```
 
    From this point on, treat `nanobot/` inside the repository as the source of truth for this lab.
    Later tasks should build on this same project instead of copying state from your home directory.
 
-2. Run the onboard wizard inside the repo-local project to generate the initial configuration and workspace:
+3. Install the nanobot. Pick one:
+
+   Latest version from `main`:
+
+   ```terminal
+   uv add "nanobot-ai @ https://github.com/HKUDS/nanobot/archive/refs/heads/main.zip"
+   ```
+
+   Pinned version from a specific commit SHA (more reproducible):
+
+   ```terminal
+   uv add "nanobot-ai @ https://github.com/HKUDS/nanobot/archive/e7d371ec1e6531b28898ec2c869ef338e8dd46ec.zip"
+   ```
+
+   > [!CAUTION]
+   > The latest released version (`v0.1.4.post5`) is infected (see [#2439](https://github.com/HKUDS/nanobot/issues/2439)). So, don't download this version from `GitHub` or `PyPI`.
+
+4. Run the onboard wizard inside the repo-local project to generate the initial configuration and workspace:
 
    ```terminal
    cd nanobot
-   uv run nanobot onboard
+   uv run nanobot onboard -c config.json
    ```
 
-   The wizard will guide you through configuring the LLM provider. Set up the **custom** provider (any OpenAI-compatible endpoint) and point it to the Qwen Code API:
+   The wizard will guide you through configuring the LLM provider.
+
+   `y = overwrite with defaults (existing values will be lost)` - Type `y` and press `Enter`.
+
+   Set up the **custom** provider (any OpenAI-compatible endpoint) and point it to the Qwen Code API:
    - **Base URL:** `http://localhost:42005/v1`
    - **API key:** your `QWEN_CODE_API_KEY` from `.env.docker.secret`
    - **Default model:** `coder-model`
@@ -47,7 +72,7 @@ Start by reading the [official nanobot repository](https://github.com/HKUDS/nano
    This generates `config.json` and a `workspace/` directory in the current folder.
    Task 2 will Dockerize this same repo-local project.
 
-3. Chat with the repo-local agent in the terminal on your VM:
+5. Chat with the repo-local agent in the terminal on your VM:
 
    ```terminal
    cd nanobot
@@ -62,7 +87,7 @@ Start by reading the [official nanobot repository](https://github.com/HKUDS/nano
    The agent answers general questions well, but it still has no **live LMS backend access** yet.
    Depending on the nanobot version, it may inspect local repo files with built-in tools and give a plausible answer based on docs, but it cannot query real LMS data until Part B adds the MCP server.
 
-4. Try a single-message query:
+6. Try a single-message query:
 
    ```terminal
    cd nanobot
@@ -246,7 +271,7 @@ The agent works, but it could be smarter about *how* it uses tools. A **skill pr
 
 ## Acceptance criteria
 
-- Nanobot is installed in the repo-local `nanobot/` project from PyPI (`uv add nanobot-ai`) and configured via `nanobot onboard`.
+- Nanobot is installed in the repo-local `nanobot/` project from either the `main` archive or a pinned commit archive, and configured via `nanobot onboard`.
 - The agent responds to general questions via the repo-local `nanobot/config.json`.
 - MCP tools are configured and the agent returns real backend data.
 - A skill prompt exists that guides the agent's tool usage.
