@@ -31,7 +31,7 @@ nanobot-1  | 2026-04-02 19:12:18.697 | INFO     | nanobot.agent.loop:run:280 - A
 
 ## Task 2B — Web client
 
-WebSocket endpoint test response:
+### WebSocket endpoint test
 
 ```terminal
 $ uv run python - <<'PY'
@@ -51,20 +51,49 @@ PY
 
 Response:
 ```json
-{"type":"text","content":"Currently, there are **no labs available** in the LMS system. The system
- is healthy but hasn't been populated with any labs yet.\n\nWould you like me to:\n1. Trigger a sy
-nc pipeline to see if labs need to be fetched from an external source?\n2. Help you with something
- else related to the LMS?","format":"markdown"}
+{"type":"text","content":"Currently, there are **no labs available** in the LMS system. The system is healthy but hasn't been populated with any labs yet.","format":"markdown"}
 ```
 
-Flutter client accessible at `http://localhost:42002/flutter/` - returns valid HTML.
+### Flutter client verification
 
-Nanobot logs show successful WebSocket connection handling:
+- Flutter client accessible at `http://localhost:42002/flutter/` - returns valid HTML
+- `main.dart.js` present and served correctly
+
+### Full stack test - Agent responds with LMS data
+
+Test: "How is the backend doing?"
+
+Agent response from logs:
+```
+nanobot-1  | 2026-04-02 19:35:42.887 | INFO | nanobot.agent.loop:_process_message:479 - Response to webchat: The backend is **healthy** ✅
+nanobot-1  | - **Status**: healthy
+nanobot-1  | - **Item count**: 0
+nanobot-1  | - **Errors**: none
+```
+
+### Nanobot logs showing successful WebSocket handling
+
 ```
 nanobot-1  | 2026-04-02 19:13:10,468 INFO [nanobot_webchat.channel] [channel.py:140] - WebChat: new connection chat_id=ab2320d0-2426-4671-ab84-2b6f8cb30c6d
 nanobot-1  | 2026-04-02 19:13:10.471 | INFO     | nanobot.agent.loop:_process_message:425 - Processing message from webchat:ab2320d0-2426-4671-ab84-2b6f8cb30c6d: What labs are available?
 nanobot-1  | 2026-04-02 19:13:16.385 | INFO     | nanobot.agent.loop:_prepare_tools:253 - Tool call: mcp_lms_lms_labs({})
 nanobot-1  | 2026-04-02 19:13:25.651 | INFO     | nanobot.agent.loop:_process_message:479 - Response to webchat:ab2320d0-2426-4671-ab84-2b6f8cb30c6d: Currently, there are **no labs available**...
+```
+
+### Verification commands
+
+```terminal
+# Check nanobot service is running
+docker compose --env-file .env.docker.secret ps nanobot
+# Output: se-toolkit-lab-8-nanobot-1 ... Up
+
+# Check Flutter serves content
+curl -sf http://localhost:42002/flutter/main.dart.js | head -c 100
+# Output: (function dartProgram(){function copyProperties(a,b){...
+
+# Check WebSocket responds
+curl -s http://localhost:42002/ws/chat
+# Returns 426 Upgrade Required (expected for non-WebSocket requests)
 ```
 
 ## Task 3A — Structured logging
