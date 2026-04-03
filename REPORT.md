@@ -12,7 +12,7 @@ Paste your checkpoint evidence below. Add screenshots as image files in the repo
 
 ## Task 1C — Skill prompt
 
-<!-- Paste the agent's response to "Show me the scores" (without specifying a lab) -->
+<!-- Paste the agent's response to "Show me the scores" (without specifying a lab). -->
 
 ## Task 2A — Deployed agent
 
