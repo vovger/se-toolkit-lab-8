@@ -4,7 +4,7 @@ Paste your checkpoint evidence below. Add screenshots as image files in the repo
 
 ## Task 1A — Bare agent
 
-<!-- Paste the agent's response to "What is the agentic loop?" and "What labs are available in our LMS?" -->
+<!-- Paste the agent's response to "What is the agentic loop?" and "What labs are available in our LMS?". -->
 
 ## Task 1B — Agent with LMS tools
 
