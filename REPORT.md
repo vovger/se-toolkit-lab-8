@@ -8,7 +8,7 @@ Paste your checkpoint evidence below. Add screenshots as image files in the repo
 
 ## Task 1B — Agent with LMS tools
 
-<!-- Paste the agent's response to "What labs are available?" and "Describe the architecture of the LMS system" -->
+<!-- Paste the agent's response to "What labs are available?" and "Describe the architecture of the LMS system". -->
 
 ## Task 1C — Skill prompt
 
